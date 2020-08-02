@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import com.example.todolist.models.*
+import java.sql.Date
+import java.text.DateFormat
 
 class ChoreDatabaseHandler(mContext: Context) :
     SQLiteOpenHelper(mContext, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -38,9 +40,42 @@ class ChoreDatabaseHandler(mContext: Context) :
         values.put(KEY_CHORE_ASSIGNED_BY, chore.assignedBy)
         values.put(KEY_CHORE_ASSIGNED_TO, chore.assignedTo)
         values.put(KEY_CHORE_ASSIGNED_TIME, System.currentTimeMillis())
-        db.insert(TABLE_NAME, null,values)
+        db.insert(TABLE_NAME, null, values)
         db.close()
 
-        Log.d("DATA INSERT ","SUCCESS")
+        Log.d("DATA INSERT ", "SUCCESS")
+    }
+
+    fun getAchor(id: Int): Chore? {
+        var db: SQLiteDatabase = writableDatabase
+        var cursor = db.query(
+            TABLE_NAME, arrayOf(
+                KEY_ID, KEY_CHORE_NAME,
+                KEY_CHORE_ASSIGNED_BY,
+                KEY_CHORE_ASSIGNED_TO,
+                KEY_CHORE_ASSIGNED_TIME
+            ),
+            "$KEY_ID=?",
+            arrayOf(id.toString()),
+            null,
+            null,
+            null
+        )
+
+        if (cursor != null) {
+            cursor.moveToFirst()
+            var chore = Chore()
+            chore.choreName = cursor.getString(cursor.getColumnIndex(KEY_CHORE_NAME))
+            chore.assignedBy = cursor.getString(cursor.getColumnIndex(KEY_CHORE_ASSIGNED_BY))
+            chore.assignedTo = cursor.getString(cursor.getColumnIndex(KEY_CHORE_ASSIGNED_TO))
+            chore.timeAssigned = cursor.getLong(cursor.getColumnIndex(KEY_CHORE_ASSIGNED_TIME))
+
+            var dateFormated: DateFormat = DateFormat.getDateInstance()
+            var formatedDate = dateFormated.format(
+                Date(cursor.getLong(cursor.getColumnIndex(KEY_CHORE_ASSIGNED_TIME))).time
+            )
+            return chore
+        }
+        return null
     }
 }
