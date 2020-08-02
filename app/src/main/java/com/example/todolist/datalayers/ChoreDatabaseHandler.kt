@@ -1,25 +1,46 @@
 package com.example.todolist.datalayers
 
+import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 import com.example.todolist.models.*
 
-class ChoreDatabaseHandler(mContext: Context):
-    SQLiteOpenHelper(mContext, DATABASE_NAME,null, DATABASE_VERSION) {
+class ChoreDatabaseHandler(mContext: Context) :
+    SQLiteOpenHelper(mContext, DATABASE_NAME, null, DATABASE_VERSION) {
 
     override fun onCreate(db: SQLiteDatabase?) {
         var CREATE_CHORE_TABLE = "CREATE TABLE " + TABLE_NAME +
                 "(" + KEY_ID + " INTEGER PRIMARY KEY," +
                 KEY_CHORE_NAME + " TEXT," +
-                KEY_ASSIGNED_BY + " TEXT," +
-                KEY_ASSIGNED_TO + " TEXT," +
+                KEY_CHORE_ASSIGNED_BY + " TEXT," +
+                KEY_CHORE_ASSIGNED_TO + " TEXT," +
                 KEY_CHORE_ASSIGNED_TIME + " LONG)"
 
         db?.execSQL(CREATE_CHORE_TABLE)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        TODO("Not yet implemented")
+        db?.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
+
+        //crete new table
+        onCreate(db)
+    }
+
+    //CRUD -> CREATE , READ , UPDATE , DELETE
+
+    fun createChore(chore: Chore) {
+        var db: SQLiteDatabase = writableDatabase
+
+        var values: ContentValues = ContentValues()
+        values.put(KEY_CHORE_NAME, chore.choreName)
+        values.put(KEY_CHORE_ASSIGNED_BY, chore.assignedBy)
+        values.put(KEY_CHORE_ASSIGNED_TO, chore.assignedTo)
+        values.put(KEY_CHORE_ASSIGNED_TIME, System.currentTimeMillis())
+        db.insert(TABLE_NAME, null,values)
+        db.close()
+
+        Log.d("DATA INSERT ","SUCCESS")
     }
 }
