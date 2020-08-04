@@ -108,7 +108,7 @@ class ChoreDatabaseHandler(mContext: Context) :
     fun readChore(): ArrayList<Chore> {
         val db: SQLiteDatabase = readableDatabase
         val list: ArrayList<Chore> = ArrayList()
-        val selectAll = "SELECT * FROM $TABLE_NAME"
+        val selectAll = "SELECT * FROM " + TABLE_NAME
 
         val cursor: Cursor = db.rawQuery(selectAll, null)
         if (cursor.moveToFirst()) {
@@ -124,7 +124,7 @@ class ChoreDatabaseHandler(mContext: Context) :
             } while (cursor.moveToNext())
         }
         return list
+        Log.d("DATA READ ", "SUCCESS")
     }
-
 
 }
