@@ -69,7 +69,7 @@
 
             <Button
                 android:id="@+id/edit"
-                android:layout_width="30dp"
+                android:layout_width="27dp"
                 android:layout_height="25dp"
                 android:layout_alignStart="@id/assignedTime"
                 android:layout_alignBottom="@id/assignedTo"

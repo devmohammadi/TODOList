@@ -98,7 +98,7 @@ class ChoreDatabaseHandler(mContext: Context) :
         db.close()
     }
 
-    fun getChoreCount(chore: Chore): Int {
+    fun getChoreCount(): Int {
         val db: SQLiteDatabase = readableDatabase
         val countQuery = "SELECT * FROM $TABLE_NAME"
         val cursor: Cursor = db.rawQuery(countQuery, null)

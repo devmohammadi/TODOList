@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.widget.Toast
 import com.example.todolist.R
 import com.example.todolist.datalayers.ChoreDatabaseHandler
@@ -24,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         val saveChore = btn_SaveChore
 
         dbHandler = ChoreDatabaseHandler(this)
-
+        checkDB()
         saveChore.setOnClickListener {
             if (
                 !TextUtils.isEmpty(enterChore.text.toString()) &&
@@ -36,30 +35,23 @@ class MainActivity : AppCompatActivity() {
                 chore.choreName = enterChore.text.toString()
                 chore.assignedBy = enterAssignedBy.text.toString()
                 chore.assignedTo = enterAssignedTo.text.toString()
-                 saveChoreToDatabase(chore)
-                Toast.makeText(this,"your chore has been saved successfully",Toast.LENGTH_SHORT).show()
-                startActivity(Intent(this,ChoreListActivity::class.java))
-            }else{
-                Toast.makeText(this,"please enter a chore !!!",Toast.LENGTH_SHORT).show()
+                saveChoreToDatabase(chore)
+                Toast.makeText(this, "your chore has been saved successfully", Toast.LENGTH_SHORT)
+                    .show()
+                startActivity(Intent(this, ChoreListActivity::class.java))
+            } else {
+                Toast.makeText(this, "please enter a chore !!!", Toast.LENGTH_SHORT).show()
             }
         }
-
-//        var newChore = Chore()
-//        newChore.choreName = "Publish Site"
-//        newChore.assignedBy = "zahra"
-//        newChore.assignedTo = "fatemeh"
-//
-//        //dbHandler?.createChore(newChore)
-//
-//        var gotChore: Chore? = dbHandler?.getAchor(1)
-//        Log.d("chore Name", gotChore!!.choreName.toString())
-//        Log.d("chore Assigned By", gotChore!!.assignedBy.toString())
-//        Log.d("chore Assigned To", gotChore!!.assignedTo.toString())
-//        Log.d("chore Time Assigned", gotChore!!.timeAssigned.toString())
-
     }
 
-    fun saveChoreToDatabase(chore: Chore){
+    fun saveChoreToDatabase(chore: Chore) {
         dbHandler!!.createChore(chore)
+    }
+
+    fun checkDB() {
+        if (dbHandler!!.getChoreCount() > 0) {
+            startActivity(Intent(this, ChoreListActivity::class.java))
+        }
     }
 }
