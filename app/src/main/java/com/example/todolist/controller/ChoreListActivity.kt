@@ -1,9 +1,12 @@
 package com.example.todolist.controller
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -31,6 +34,7 @@ class ChoreListActivity : AppCompatActivity() {
         layoutManager = LinearLayoutManager(this)
         dbHandler = ChoreDatabaseHandler(this)
         choreList = dbHandler!!.readChore()
+        choreList?.reverse()
         adapter = ChoreListAdapter(this, choreList!!)
         recyclerview.layoutManager = layoutManager
         recyclerview.adapter = adapter
@@ -51,7 +55,7 @@ class ChoreListActivity : AppCompatActivity() {
     }
 
     private fun createPopupDialog() {
-        var view = layoutInflater.inflate(R.layout.popup,null)
+        var view = layoutInflater.inflate(R.layout.popup, null)
         var popChoreName = view.poptvChore
         var popAssignedBy = view.poptvAssignedBy
         var popAssignedTo = view.poptvAssignedTo
@@ -60,5 +64,28 @@ class ChoreListActivity : AppCompatActivity() {
         alertDialogBuilder = AlertDialog.Builder(this).setView(view)
         dialogAlert = alertDialogBuilder!!.create()
         dialogAlert!!.show()
+
+        popSaveButton.setOnClickListener {
+            var name = popChoreName.text.toString().trim()
+            var assignedBy = popAssignedBy.text.toString().trim()
+            var assignedTo = popAssignedTo.text.toString().trim()
+
+            if (
+                !TextUtils.isEmpty(name) &&
+                !TextUtils.isEmpty(assignedBy) &&
+                !TextUtils.isEmpty(assignedTo)
+            ) {
+                var chore = Chore()
+                chore.choreName = name
+                chore.assignedBy = assignedBy
+                chore.assignedTo = assignedTo
+                dbHandler!!.createChore(chore)
+                dialogAlert!!.dismiss()
+                startActivity(Intent(this, ChoreListActivity::class.java))
+                finish()
+            } else {
+                Toast.makeText(this, "please enter a chore !!!", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }

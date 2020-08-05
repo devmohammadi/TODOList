@@ -52,6 +52,7 @@ class MainActivity : AppCompatActivity() {
     fun checkDB() {
         if (dbHandler!!.getChoreCount() > 0) {
             startActivity(Intent(this, ChoreListActivity::class.java))
+            finish()
         }
     }
 }

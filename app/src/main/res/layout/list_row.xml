@@ -35,18 +35,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/choreName"
-                android:layout_toRightOf="@id/imageView"
+                android:layout_toEndOf="@id/imageView"
                 android:paddingTop="5dp"
-                android:text="Assigned By :" />
+                android:text="@string/assignedby" />
 
             <TextView
                 android:id="@+id/choreName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:layout_toRightOf="@id/imageView"
-                android:text="Chore Name"
-                android:textSize="18dp"
+                android:layout_toEndOf="@id/imageView"
+                android:text="@string/chore_name"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -54,18 +54,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/assignedBy"
-                android:layout_toRightOf="@id/imageView"
+                android:layout_toEndOf="@id/imageView"
                 android:paddingTop="5dp"
-                android:text="Assigned To" />
+                android:text="@string/assignedto" />
 
             <TextView
                 android:id="@+id/assignedTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/imageView"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:paddingTop="5dp"
-                android:text="2019/04/32 10:40:36" />
+                android:text="@string/date" />
 
             <Button
                 android:id="@+id/edit"
@@ -83,7 +83,7 @@
                 android:layout_width="30dp"
                 android:layout_height="25dp"
                 android:layout_alignBottom="@id/assignedTo"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"

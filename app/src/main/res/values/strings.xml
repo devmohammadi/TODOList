@@ -6,4 +6,8 @@
     <string name="save_chore">Save chore</string>
     <string name="description">description image</string>
     <string name="add">add</string>
+    <string name="assignedby">Assigned By :</string>
+    <string name="chore_name">Chore Name</string>
+    <string name="assignedto">Assigned To</string>
+    <string name="date">2019/04/32 10:40:36</string>
 </resources>
