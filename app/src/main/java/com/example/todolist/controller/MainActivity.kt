@@ -23,7 +23,9 @@ class MainActivity : AppCompatActivity() {
         val saveChore = btn_SaveChore
 
         dbHandler = ChoreDatabaseHandler(this)
+
         checkDB()
+
         saveChore.setOnClickListener {
             if (
                 !TextUtils.isEmpty(enterChore.text.toString()) &&
@@ -52,7 +54,6 @@ class MainActivity : AppCompatActivity() {
     fun checkDB() {
         if (dbHandler!!.getChoreCount() > 0) {
             startActivity(Intent(this, ChoreListActivity::class.java))
-            finish()
         }
     }
 }

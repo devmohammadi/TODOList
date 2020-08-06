@@ -33,6 +33,10 @@ class ChoreListActivity : AppCompatActivity() {
         choreList = ArrayList()
         layoutManager = LinearLayoutManager(this)
         dbHandler = ChoreDatabaseHandler(this)
+        getAllDataFromDatabase()
+    }
+
+    private fun getAllDataFromDatabase() {
         choreList = dbHandler!!.readChore()
         choreList?.reverse()
         adapter = ChoreListAdapter(this, choreList!!)
@@ -79,10 +83,12 @@ class ChoreListActivity : AppCompatActivity() {
                 chore.choreName = name
                 chore.assignedBy = assignedBy
                 chore.assignedTo = assignedTo
+
                 dbHandler!!.createChore(chore)
                 dialogAlert!!.dismiss()
-                startActivity(Intent(this, ChoreListActivity::class.java))
-                finish()
+                getAllDataFromDatabase()
+//                startActivity(Intent(this, ChoreListActivity::class.java))
+//                finish()
             } else {
                 Toast.makeText(this, "please enter a chore !!!", Toast.LENGTH_SHORT).show()
             }

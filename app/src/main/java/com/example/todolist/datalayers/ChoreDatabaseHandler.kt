@@ -86,7 +86,7 @@ class ChoreDatabaseHandler(mContext: Context) :
         values.put(KEY_CHORE_NAME, chore.choreName)
         values.put(KEY_CHORE_ASSIGNED_BY, chore.assignedBy)
         values.put(KEY_CHORE_ASSIGNED_TO, chore.assignedTo)
-        values.put(KEY_CHORE_ASSIGNED_TIME, chore.timeAssigned)
+        values.put(KEY_CHORE_ASSIGNED_TIME, System.currentTimeMillis())
 
         //update a row from database
         return db.update(TABLE_NAME, values, "$KEY_ID=?", arrayOf(chore.id.toString()))
@@ -98,9 +98,16 @@ class ChoreDatabaseHandler(mContext: Context) :
         db.close()
     }
 
+    fun deleteChore(id: Int) {
+        val db: SQLiteDatabase = writableDatabase
+        db.delete(TABLE_NAME, "$KEY_ID=?", arrayOf(id.toString()))
+        db.close()
+    }
+
+
     fun getChoreCount(): Int {
         val db: SQLiteDatabase = readableDatabase
-        val countQuery = "SELECT * FROM $TABLE_NAME"
+        val countQuery = "SELECT * FROM "+TABLE_NAME
         val cursor: Cursor = db.rawQuery(countQuery, null)
         return cursor.count
     }
